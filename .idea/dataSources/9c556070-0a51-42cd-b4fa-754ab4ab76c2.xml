@@ -4090,7 +4090,7 @@ SELECT|sys.sys_config:null
     </column>
     <column id="621" parent="283" name="Last_Purchase_Time">
       <Position>7</Position>
-      <DataType>date|0s</DataType>
+      <DataType>int|0s</DataType>
       <NotNull>1</NotNull>
     </column>
     <index id="622" parent="283" name="customer_C_number_uindex">
