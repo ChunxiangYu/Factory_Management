@@ -4,24 +4,24 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class customerOperation {
+public class productOperation {
     JDBCDemo bd = new JDBCDemo();
-    List<customer> list1 = new ArrayList<>();
+    List<product> list1 = new ArrayList<>();
     Connection conn = null;
     Statement state = null;
     ResultSet rs = null;
     PreparedStatement pState;
-    String[] str = new String[7];
+    String[] str = new String[3];
 
     //将数据库数据导出
-    public List<customer> customerDao() {
+    public List<product> productDao() {
         conn = bd.getConn();
         try {
             state = conn.createStatement();
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        String sql = "select * from customer";
+        String sql = "select * from product";
         try {
             rs = state.executeQuery(sql);
         } catch (SQLException e) {
@@ -29,15 +29,11 @@ public class customerOperation {
         }
         try {
             while (rs.next()) {
-                customer cus = new customer();
-                cus.setC_number(rs.getInt("C_number"));
-                cus.setL_name(rs.getString("L_name"));
-                cus.setF_name(rs.getString("F_name"));
-                cus.setPhoneNumber(rs.getInt("phoneNumber"));
-                cus.setAddress(rs.getString("address"));
-                cus.setGender(rs.getString("gender"));
-                cus.setLast_Purchase_Time(rs.getString("Last_Purchase_Time"));
-                list1.add(cus);
+                product pro = new product();
+                pro.setP_id(rs.getInt("p_id"));
+                pro.setProductName(rs.getString("productName"));
+                pro.setPerPrice(rs.getInt("perPrice"));
+                list1.add(pro);
             }
             bd.close(rs, pState, conn);
         } catch (SQLException e) {
@@ -48,10 +44,10 @@ public class customerOperation {
 
     //添加数据入库
     @SuppressWarnings("finally")
-    public String Insert(String C_number, String L_name, String F_name, String phoneNumber, String address, String gender, String Last_Purchase_Time) {
+    public String Insert(String p_id, String productName, String perPrice) {
         conn = bd.getConn();
         int result = -1;
-        String sql = "insert into customer values(" + C_number + ",'" + L_name + "','" + F_name + "'," + phoneNumber + ",'" + address + "','" + gender + "'," + Last_Purchase_Time + ") ";
+        String sql = "insert into product values(" + p_id + ",'" + productName + "'," + perPrice + ") ";
         try {
             pState = conn.prepareStatement(sql);
         } catch (SQLException e) {
@@ -80,7 +76,7 @@ public class customerOperation {
     public String Del(int row) {
         conn = bd.getConn();
         int result = -1;
-        String sql = "delete from customer where C_number = ? ";
+        String sql = "delete from product where p_id = ? ";
         try {
             pState = conn.prepareStatement(sql);
         } catch (SQLException e) {
@@ -108,10 +104,10 @@ public class customerOperation {
 
     //修改数据，会把所有数据修改一遍id除外
     @SuppressWarnings("finally")
-    public String Update(String C_number, String L_name, String F_name, String phoneNumber, String address, String gender, String Last_Purchase_Time) {
+    public String Update(String p_id, String productName, String perPrice) {
         conn = bd.getConn();
         int result = -1;
-        String sql = "update customer set  C_number =" + C_number + ",L_name ='" + L_name + "',F_name ='" + F_name + "',phoneNumber=" + phoneNumber + ",address ='" + address + "',gender ='" + gender + "',Last_Purchase_Time=" + Last_Purchase_Time + " where C_number=" + C_number + "";
+        String sql = "update product set  p_id =" + p_id + ",productName ='" + productName + "',perPrice=" + perPrice + " where p_id=" + p_id + "";
         try {
             pState = conn.prepareStatement(sql);
         } catch (SQLException e) {
@@ -137,7 +133,7 @@ public class customerOperation {
     public String[] Select(String id) {
         conn = bd.getConn();
         int result = -1;
-        String sql = "select * from customer where C_number = ?";
+        String sql = "select * from product where p_id = ?";
         try {
             pState = conn.prepareStatement(sql);
         } catch (SQLException e) {
@@ -151,13 +147,9 @@ public class customerOperation {
         try {
             ResultSet rs = pState.executeQuery();
             while (rs.next()) {
-                str[0] = rs.getString("C_number");
-                str[1] = rs.getString("L_name");
-                str[2] = rs.getString("F_name");
-                str[3] = rs.getString("phoneNumber");
-                str[4] = rs.getString("address");
-                str[5] = rs.getString("gender");
-                str[6] = rs.getString("Last_Purchase_Time");
+                str[0] = rs.getString("p_id");
+                str[1] = rs.getString("productName");
+                str[2] = rs.getString("perPrice");
 
             }
         } catch (SQLException e) {

@@ -1,7 +1,7 @@
 public class customer {
     private int C_number;
     private String L_name;
-    private  String F_name;
+    private String F_name;
     private int phoneNumber;
     private String address;
     private String gender;
